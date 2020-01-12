@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Net;
 using Xamarin.Forms;
-using System.IO;
-using System.Linq;
+
 
 namespace collectionViewTestX
 
@@ -11,49 +9,20 @@ namespace collectionViewTestX
     {
         public MainPage()
         {
-            BindingContext = new MonkeysViewModel();
-            CollectionView collectionView = new CollectionView
+            StackLayout contentView = new StackLayout();
+            Button showList = new Button()
             {
-                SelectionMode = SelectionMode.Single,
-                ItemsLayout = new GridItemsLayout(2, ItemsLayoutOrientation.Vertical)
+                Text = "click"
             };
-            collectionView.SetBinding(ItemsView.ItemsSourceProperty, "Monkeys");
-            collectionView.SelectionChanged += OnCollectionViewSelectionChanged;
-
-            collectionView.ItemTemplate = new DataTemplate(() =>
-            {
-                Grid grid = new Grid { Padding = 10 };
-                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
-                Image image = new Image { Aspect = Aspect.AspectFill, HeightRequest = 60, WidthRequest = 60 };
-                image.SetBinding(Image.SourceProperty, "ImageUrlSource");
-                image.IsAnimationPlaying = true;
-                Label nameLabel = new Label { FontAttributes = FontAttributes.Bold };
-                nameLabel.SetBinding(Label.TextProperty, "Name");
-
-                Label locationLabel = new Label { FontAttributes = FontAttributes.Italic, VerticalOptions = LayoutOptions.End };
-                locationLabel.SetBinding(Label.TextProperty, "Location");
-
-                Grid.SetRowSpan(image, 2);
-
-                grid.Children.Add(image);
-                grid.Children.Add(nameLabel, 1, 0);
-                grid.Children.Add(locationLabel, 1, 1);
-
-                return grid;
-            });
-            Content = collectionView;
-
-
+            showList.Clicked += ShowList_ClickedAsync;
+            contentView.Children.Add(showList);
+            Content = contentView;
         }
-        void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string previous = (e.PreviousSelection.FirstOrDefault() as Monkey)?.Name;
-            string current = (e.CurrentSelection.FirstOrDefault() as Monkey)?.Name;
 
+        private async void ShowList_ClickedAsync(object sender, EventArgs e)
+        {
+            CollectionViewX newView = new CollectionViewX();
+            await Navigation.PushAsync(newView.GetMainPage());
         }
     }
 }
