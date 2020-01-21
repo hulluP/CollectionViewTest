@@ -6,13 +6,20 @@ using System.Threading.Tasks;
 
 namespace collectionViewTestX
 {
-    public class CollectionXModel
+    public class CollectionXModel : IDisposable
     {
         private IList<ViewImage> source;
         public ObservableCollection<ViewImage> ViewImages
         {
             get;
             private set;
+        }
+
+
+        public void Dispose()
+        {
+            ViewImages.Clear();
+            source.Clear();
         }
 
         public CollectionXModel()

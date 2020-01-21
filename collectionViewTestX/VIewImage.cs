@@ -1,15 +1,18 @@
 ﻿using System;
+using System.ComponentModel;
 using Xamarin.Forms;
 
 namespace collectionViewTestX
 {
-    public class ViewImage
+    public class ViewImage : INotifyPropertyChanged
     {
 
         private string myUrl;
         private string myThumbnailURL;
         public string ID { get; }
         private bool myIsAnimated = false;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public ViewImage(string url, string thumbnail, string id)
         {

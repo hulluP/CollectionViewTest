@@ -77,6 +77,12 @@ namespace collectionViewTestX
             });
         }
 
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            PageModel.Dispose();
+        }
+
         private void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             return;
