@@ -36,13 +36,14 @@ namespace collectionViewTestX
                 ItemsLayout = new GridItemsLayout(numberOfColums, ItemsLayoutOrientation.Vertical),
                 BackgroundColor = COLOR_SCHEME_COLOR_2
             };
-            RefreshImageCollection = new RefreshView()
-            {
-                BackgroundColor = COLOR_SCHEME_COLOR_2
-            };
-            RefreshImageCollection.Command = RefreshCommand;
-            RefreshImageCollection.Content = ImageCollectionView;
-            _VerticallViewStack.Children.Add(RefreshImageCollection);
+            //RefreshImageCollection = new RefreshView()
+            //{
+            //    BackgroundColor = COLOR_SCHEME_COLOR_2
+            //};
+            //RefreshImageCollection.Command = RefreshCommand;
+            //RefreshImageCollection.Content = ImageCollectionView;
+            _VerticallViewStack.Children.Add(ImageCollectionView);
+            //_VerticallViewStack.Children.Add(RefreshImageCollection);
             LoadCollectionView();
             Content = _VerticallViewStack;
             return this;
@@ -80,9 +81,14 @@ namespace collectionViewTestX
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            PageModel.Dispose();
+            if (PageModel != null)
+            {
+                PageModel.Dispose();
+            }
+            //BindingContext = null; 
+            ImageCollectionView.RemoveBinding(ItemsView.ItemsSourceProperty);
+            ImageCollectionView.SelectionChanged -= OnCollectionViewSelectionChanged;
         }
-
         private void OnCollectionViewSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             return;

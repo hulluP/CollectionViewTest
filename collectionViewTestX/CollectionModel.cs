@@ -18,8 +18,12 @@ namespace collectionViewTestX
 
         public void Dispose()
         {
-            ViewImages.Clear();
+            if (ViewImages != null)
+            {
+                ViewImages.Clear();
+            }
             source.Clear();
+            source = null;
         }
 
         public CollectionXModel()
